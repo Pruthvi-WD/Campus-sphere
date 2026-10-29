@@ -1,0 +1,45 @@
+
+  <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#0B132B" />
+        <stop offset="50%" stop-color="#0F2B5C" />
+        <stop offset="100%" stop-color="#0F5B8F" />
+      </linearGradient>
+      <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FCD34D" />
+        <stop offset="50%" stop-color="#F59E0B" />
+        <stop offset="100%" stop-color="#D97706" />
+      </linearGradient>
+      <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#38BDF8" />
+        <stop offset="100%" stop-color="#0284C7" />
+      </linearGradient>
+      <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+        <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4" />
+      </filter>
+    </defs>
+
+    <!-- Background -->
+    <rect width="512" height="512" rx="112.64" fill="url(#bgGrad)" />
+
+    <!-- Outer Decorative Orbit Ring -->
+    <circle cx="256" cy="256" r="197.8368" fill="none" stroke="url(#cyanGrad)" stroke-width="7.68" stroke-dasharray="20.48 10.24" opacity="0.65" />
+
+    <!-- Middle Sphere Ring -->
+    <circle cx="256" cy="256" r="164.864" fill="#0A192F" stroke="url(#goldGrad)" stroke-width="10.24" filter="url(#glow)" />
+
+    <!-- University Engineering Crest: Graduation Cap / Atom / Gear -->
+    <g transform="translate(256, 256) scale(2.56)" filter="url(#glow)">
+      <!-- Mortarboard Diamond / Cap -->
+      <polygon points="0,-24 38,-7 0,10 -38,-7" fill="url(#goldGrad)" />
+      <!-- Cap base -->
+      <path d="M-22,-2 L-22,12 C-22,20 22,20 22,12 L22,-2 C16,4 -16,4 -22,-2 Z" fill="#D97706" />
+      <!-- Tassel -->
+      <path d="M26,-2 L32,10 L35,26" fill="none" stroke="#FDE68A" stroke-width="2.5" stroke-linecap="round" />
+      <circle cx="35" cy="27" r="3" fill="#F59E0B" />
+      <!-- University Monogram -->
+      <text x="0" y="32" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="14" fill="#FFFFFF" letter-spacing="2">GMU</text>
+    </g>
+  </svg>
+  

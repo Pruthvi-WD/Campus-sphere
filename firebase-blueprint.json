@@ -1,0 +1,132 @@
+{
+  "entities": {
+    "Student": {
+      "title": "Student",
+      "description": "Student academic and attendance profile",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "rollNo": { "type": "string", "maxLength": 50 },
+        "department": { "type": "string", "maxLength": 120 },
+        "year": { "type": "number" },
+        "email": { "type": "string", "maxLength": 120 },
+        "attendancePercent": { "type": "number" },
+        "internalMarks": { "type": "number" },
+        "finalMarks": { "type": "number" },
+        "gpa": { "type": "number" },
+        "cgpa": { "type": "number" },
+        "grade": { "type": "string", "maxLength": 10 },
+        "atRisk": { "type": "boolean" },
+        "assignmentsCompleted": { "type": "number" },
+        "totalAssignments": { "type": "number" },
+        "semester": { "type": "number" }
+      },
+      "required": ["id", "name", "rollNo", "department", "email"]
+    },
+    "Staff": {
+      "title": "Staff",
+      "description": "Faculty member record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 120 },
+        "department": { "type": "string", "maxLength": 120 },
+        "hoursTaughtWeekly": { "type": "number" }
+      },
+      "required": ["id", "name", "email", "department"]
+    },
+    "TimetableSlot": {
+      "title": "TimetableSlot",
+      "description": "Classroom lecture and lab schedule slot",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "day": { "type": "string", "maxLength": 20 },
+        "time": { "type": "string", "maxLength": 50 },
+        "subject": { "type": "string", "maxLength": 100 },
+        "classroom": { "type": "string", "maxLength": 50 },
+        "professorId": { "type": "string", "maxLength": 64 },
+        "professorName": { "type": "string", "maxLength": 100 },
+        "department": { "type": "string", "maxLength": 120 },
+        "year": { "type": "number" }
+      },
+      "required": ["id", "day", "time", "subject", "classroom", "department"]
+    },
+    "Notice": {
+      "title": "Notice",
+      "description": "Campus bulletin announcement",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 150 },
+        "content": { "type": "string", "maxLength": 2000 },
+        "category": { "type": "string", "maxLength": 50 },
+        "date": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "title", "content", "category", "date"]
+    },
+    "Grievance": {
+      "title": "Grievance",
+      "description": "Student grievance or feedback item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 150 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "category": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "maxLength": 30 },
+        "studentId": { "type": "string", "maxLength": 64 },
+        "studentName": { "type": "string", "maxLength": 100 },
+        "createdAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "title", "description", "status"]
+    },
+    "User": {
+      "title": "User",
+      "description": "Registered portal user account",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "maxLength": 20 },
+        "email": { "type": "string", "maxLength": 120 },
+        "avatar": { "type": "string", "maxLength": 500 },
+        "department": { "type": "string", "maxLength": 120 },
+        "username": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "name", "role", "email"]
+    }
+  },
+  "firestore": {
+    "/students/{studentId}": {
+      "schema": "Student",
+      "description": "Collection of engineering student academic records"
+    },
+    "/staff/{staffId}": {
+      "schema": "Staff",
+      "description": "Collection of college engineering faculty"
+    },
+    "/timetable/{slotId}": {
+      "schema": "TimetableSlot",
+      "description": "Department class and lab schedules"
+    },
+    "/notices/{noticeId}": {
+      "schema": "Notice",
+      "description": "Official campus announcements and circulars"
+    },
+    "/grievances/{grievanceId}": {
+      "schema": "Grievance",
+      "description": "Student feedback and academic grievances"
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and RBAC directory"
+    },
+    "/admins/{adminId}": {
+      "schema": "User",
+      "description": "Designated administrator identity tokens"
+    }
+  }
+}

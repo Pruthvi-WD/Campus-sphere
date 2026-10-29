@@ -1,0 +1,110 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Global Safety Net (Default-Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isBootstrappedAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'pruthvis103@gmail.com' ||
+        (request.auth.token.keys().hasAll(['email_verified']) && request.auth.token.email_verified == true && request.auth.token.email == 'pruthvis103@gmail.com')
+      );
+    }
+
+    function isAdmin() {
+      return isBootstrappedAdmin() || (isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)));
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Admins registry
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if isBootstrappedAdmin() || isAdmin();
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidId(userId);
+      allow update: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // Students collection
+    match /students/{studentId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn() && isValidId(studentId);
+      allow delete: if isAdmin();
+    }
+
+    // Staff collection
+    match /staff/{staffId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn() && isValidId(staffId);
+      allow delete: if isAdmin();
+    }
+
+    // Timetable collection
+    match /timetable/{slotId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isSignedIn() && isValidId(slotId);
+    }
+
+    // Notices collection
+    match /notices/{noticeId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isSignedIn() && isValidId(noticeId);
+    }
+
+    // Grievances collection
+    match /grievances/{grievanceId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn() && isValidId(grievanceId);
+      allow delete: if isAdmin();
+    }
+
+    // Campus Resources (Labs, AV Rooms, Halls)
+    match /resources/{resourceId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isSignedIn() && isValidId(resourceId);
+    }
+
+    // Study Groups & Peer Circles
+    match /studyGroups/{groupId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isSignedIn() && isValidId(groupId);
+    }
+
+    // Certificate Requests
+    match /certificates/{certId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if isSignedIn() && isValidId(certId);
+    }
+
+    // Fee Invoices
+    match /invoices/{invoiceId} {
+      allow read: if isSignedIn();
+      allow create, update: if isSignedIn() && isValidId(invoiceId);
+      allow delete: if isAdmin();
+    }
+  }
+}
